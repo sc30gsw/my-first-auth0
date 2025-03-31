@@ -114,6 +114,11 @@ export default async function Home() {
 					/>
 					Go to nextjs.org →
 				</a>
+				<span className="m-[15px]">
+					<a href="https://developer.yahoo.co.jp/sitemap/">
+						Web Services by Yahoo! JAPAN
+					</a>
+				</span>
 			</footer>
 		</div>
 	)
