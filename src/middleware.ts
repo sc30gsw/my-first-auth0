@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
 	if (session?.value) {
 		const url = new URL(request.nextUrl)
 		const redirectUrl = url.searchParams.get('redirectTo')
+		console.log('🚀 ~ middleware ~ redirectUrl:', redirectUrl)
 
 		if (!redirectUrl) {
 			return authResponse
@@ -16,7 +17,8 @@ export async function middleware(request: NextRequest) {
 
 		try {
 			return NextResponse.redirect(redirectUrl)
-		} catch (_) {
+		} catch (err: unknown) {
+			console.log('🚀 ~ middleware ~ err:', err, err.message)
 			return authResponse
 		}
 	}
