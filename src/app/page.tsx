@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import { auth0 } from '~/lib/auth0'
 
 export default async function Home() {
@@ -24,10 +23,10 @@ export default async function Home() {
 								{session.user.name}
 							</span>
 						</p>
-						<Link href="/auth/logout">Log out</Link>
+						<a href="/auth/logout">Log out</a>
 					</div>
 				) : (
-					<Link href="/auth/login">Log in</Link>
+					<a href="/auth/login">Log in</a>
 				)}
 				<ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
 					<li className="mb-2 tracking-[-.01em]">
@@ -114,11 +113,6 @@ export default async function Home() {
 					/>
 					Go to nextjs.org →
 				</a>
-				<span className="m-[15px]">
-					<a href="https://developer.yahoo.co.jp/sitemap/">
-						Web Services by Yahoo! JAPAN
-					</a>
-				</span>
 			</footer>
 		</div>
 	)
