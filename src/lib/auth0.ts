@@ -3,10 +3,10 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 export const auth0 = new Auth0Client({
-	onCallback: async (error) => {
+	onCallback: async (error, _, session) => {
 		// biome-ignore lint/suspicious/noConsole: <explanation>
 		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
-		console.log('🚀 ~ onCallback: ~ error:', error)
+		console.log('🚀 ~ onCallback: ~ error:', error, session?.user.email)
 		if (error) {
 			return NextResponse.json(
 				{ message: 'Authentication failed' },
