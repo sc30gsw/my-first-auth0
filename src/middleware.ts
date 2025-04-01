@@ -10,7 +10,15 @@ export async function middleware(request: NextRequest) {
 		const url = new URL(request.nextUrl)
 		const redirectUrl = url.searchParams.get('redirectTo')
 
-		return NextResponse.redirect(redirectUrl ?? '')
+		if (!redirectUrl) {
+			return authResponse
+		}
+
+		try {
+			return NextResponse.redirect(redirectUrl)
+		} catch (_) {
+			return authResponse
+		}
 	}
 
 	return authResponse
