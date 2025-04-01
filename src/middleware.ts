@@ -5,6 +5,9 @@ export async function middleware(request: NextRequest) {
 	const authResponse = await auth0.middleware(request)
 	const url = new URL(request.nextUrl)
 	const redirectUrl = url.searchParams.get('redirectTo')
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+	console.log('🚀 ~ middleware ~ redirectUrl:', redirectUrl)
 
 	if (redirectUrl) {
 		authResponse.cookies.set('redirectTo', redirectUrl, {
@@ -14,7 +17,20 @@ export async function middleware(request: NextRequest) {
 			sameSite: 'lax',
 			secure: process.env.NODE_ENV === 'production',
 		})
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+		console.log(
+			'🚀 ~ middleware ~ cookie:',
+			authResponse.cookies.get('redirectTo'),
+		)
 	}
+
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+	console.log(
+		'🚀 ~ middleware ~ get cookie:',
+		authResponse.cookies.get('redirectTo'),
+	)
 
 	return authResponse
 }

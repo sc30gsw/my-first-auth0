@@ -4,6 +4,9 @@ import { NextResponse } from 'next/server'
 
 export const auth0 = new Auth0Client({
 	onCallback: async (error) => {
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+		console.log('🚀 ~ onCallback: ~ error:', error)
 		if (error) {
 			return NextResponse.json(
 				{ message: 'Authentication failed' },
@@ -14,6 +17,9 @@ export const auth0 = new Auth0Client({
 		const cookiesStore = await cookies()
 
 		const redirectTo = cookiesStore.get('redirectTo')?.value ?? ''
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+		console.log('🚀 ~ onCallback: ~ redirectTo:', redirectTo)
 
 		const response = redirectTo
 			? NextResponse.redirect(redirectTo)
