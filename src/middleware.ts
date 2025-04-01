@@ -8,7 +8,15 @@ export async function middleware(request: NextRequest) {
 
 	if (session?.value) {
 		const url = new URL(request.nextUrl)
-		const redirectUrl = url.searchParams.get('redirectTo')
+		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+		// biome-ignore lint/suspicious/noConsole: <explanation>
+		console.log(
+			'🚀 ~ middleware ~ url:',
+			url,
+			request.nextUrl,
+			request.nextUrl.searchParams.get('redirectTo'),
+		)
+		const redirectUrl = request.nextUrl.searchParams.get('redirectTo')
 		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 		// biome-ignore lint/suspicious/noConsole: <explanation>
 		console.log('🚀 ~ middleware ~ redirectUrl:', redirectUrl)
