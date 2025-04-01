@@ -3,27 +3,32 @@ import { auth0 } from '~/lib/auth0'
 
 export async function middleware(request: NextRequest) {
 	const authResponse = await auth0.middleware(request)
+	const url = new URL(request.nextUrl)
+	let redirectUrl = url.searchParams.get('redirectTo')
+	// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+	// biome-ignore lint/suspicious/noConsole: <explanation>
+	console.log('🚀 ~ middleware ~ redirectUrl:', redirectUrl)
+
+	if (redirectUrl) {
+		authResponse.cookies.set('redirectTo', redirectUrl, {
+			path: '/',
+			maxAge: 60 * 60 * 24, // 1 day
+			httpOnly: true,
+			sameSite: 'lax',
+			secure: process.env.NODE_ENV === 'production',
+		})
+	} else {
+		redirectUrl = request.cookies.get('redirectTo')?.value ?? ''
+	}
 
 	const session = authResponse.cookies.get('__session')
 
 	if (session?.value) {
-		const url = new URL(request.nextUrl)
 		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.log(
-			'🚀 ~ middleware ~ url:',
-			url,
-			request.nextUrl,
-			request.nextUrl.searchParams.get('redirectTo'),
-		)
-		const redirectUrl = request.nextUrl.searchParams.get('redirectTo')
-		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
-		// biome-ignore lint/suspicious/noConsole: <explanation>
-		console.log('🚀 ~ middleware ~ redirectUrl:', redirectUrl)
-
-		if (!redirectUrl) {
-			return authResponse
-		}
+		console.log('🚀 ~ middleware ~ redirectUrl2:', redirectUrl)
+		// Cookie を削除（セキュリティ対策）
+		authResponse.cookies.delete('redirectTo')
 
 		try {
 			return NextResponse.redirect(redirectUrl)
