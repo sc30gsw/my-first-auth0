@@ -22,6 +22,14 @@ export default async function Home() {
 							<span className="font-bold text-blue-500">
 								{session.user.name}
 							</span>
+							Don you want to see your profile?
+							<a
+								target="_blank"
+								href="https://next14-push-notification.vercel.app/auth/login"
+								rel="noreferrer"
+							>
+								click here
+							</a>
 						</p>
 						<a href="/auth/logout">Log out</a>
 					</div>
