@@ -9,6 +9,8 @@ export async function middleware(request: NextRequest) {
 	if (session?.value) {
 		const url = new URL(request.nextUrl)
 		const redirectUrl = url.searchParams.get('redirectTo')
+		// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+		// biome-ignore lint/suspicious/noConsole: <explanation>
 		console.log('🚀 ~ middleware ~ redirectUrl:', redirectUrl)
 
 		if (!redirectUrl) {
@@ -18,7 +20,11 @@ export async function middleware(request: NextRequest) {
 		try {
 			return NextResponse.redirect(redirectUrl)
 		} catch (err: unknown) {
-			console.log('🚀 ~ middleware ~ err:', err, err.message)
+			if (err instanceof Error) {
+				// biome-ignore lint/suspicious/noConsoleLog: <explanation>
+				// biome-ignore lint/suspicious/noConsole: <explanation>
+				console.log('🚀 ~ middleware ~ err:', err, err.message)
+			}
 			return authResponse
 		}
 	}
