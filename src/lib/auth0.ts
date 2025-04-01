@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 export const auth0 = new Auth0Client({
-	onCallback: async (error, ctx) => {
+	onCallback: async (error) => {
 		if (error) {
 			return NextResponse.json(
 				{ message: 'Authentication failed' },
